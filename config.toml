@@ -1,0 +1,109 @@
+# ~/.config/starship.toml
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Change the default prompt format
+format = """[╭╴](green)$shell([|](green) ${custom.su} )[|](green) $env_var${custom.env_name_root}${custom.env_name}${custom.env_at}${custom.env_domain} [|](green) $memory_usage [|](green) $localip [|](green) $directory
+(${custom.su_warning_stick}${custom.su_warning}${custom.su_warning_stick_after})$character"""
+
+palette = "default"
+
+[memory_usage]
+disabled = false
+threshold = -1
+symbol = " "
+format = "[Ram usage: ](pink)[$ram\\($ram_pct\\)](bold blue)"
+
+[directory]
+truncation_length  = 100
+format="[\\[[$path](yellow)\\]](purple) "
+
+[character]
+success_symbol = """[╰─▶](green)"""
+error_symbol = """[╰─▶](red)"""
+
+[username]
+format = "[$user]($style)"
+style_root = "purple"
+
+[env_var.USERNAME]
+default = ""
+format = "([$env_value](purple))"
+
+[env_var.USERDOMAIN]
+default = ""
+format = "([@](bold cyan)[$env_value](bold red))"
+
+[localip]
+ssh_only = false
+format = "[IP:](pink) [$localipv4](bold blue) "
+disabled = false
+
+[shell]
+bash_indicator="[\\[[BASH](bold red)\\]](bold blue) 濫"
+powershell_indicator="[\\[[POWERSHELL](cyan)\\]](bold red) 者"
+cmd_indicator="[\\[[CMD](green)\\]](bold red) 者"
+unknown_indicator="unknown"
+format="$indicator"
+disabled=false
+
+[custom.env_name]
+command="whoami"
+when=""" test $(whoami) != "root" """
+format="[$output]($style)"
+style="purple"
+os="unix"
+
+[custom.env_name_root]
+command="whoami"
+when=""" test $(whoami) = "root" """
+format="[$output]($style)"
+style="red"
+os="unix"
+
+[custom.env_at]
+command="echo @"
+when=true
+format="[$output]($style)"
+style="bold cyan"
+os="unix"
+
+[custom.env_domain]
+command="hostname"
+when=true
+format="[$output]($style)"
+style="bold red"
+os="unix"
+
+[custom.su]
+command="echo SUPERUSER"
+when=""" test $(whoami) = "root" """
+format="[\\[[$output](red)\\]](yellow)"
+os="unix"
+
+[custom.su_warning]
+command="echo --WARNING! THIS IS AN SUPERUSER ACCOUNT! UNLESS THIS IS INTENDED, PLEASE LEAVE USING CTRL+D!--"
+when=""" test $(whoami) = "root" """
+format="[\\[[$output](red)\\]](yellow)"
+os="unix"
+
+[custom.su_warning_stick]
+command="printf '│\n│\n│'"
+when=""" test $(whoami) = "root" """
+format="[$output](green)"
+os="unix"
+
+[custom.su_warning_stick_after]
+command="echo │"
+when=""" test $(whoami) = "root" """
+format="\n[$output](green)\n"
+os="unix"
+
+[fill]
+symbol=" "
+
+[palettes.default]
+orange = "#e86e23"
+purple = "#9811ba"
+pink = "#e817b4"
